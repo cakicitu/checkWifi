@@ -48,8 +48,8 @@ def exit_handler():
     # controlServo()
 
 
-while not isConnected:
+while True:
     print("---pinging---")
     ping()
 
-atexit.register(exit_handler)
+#atexit.register(exit_handler)
