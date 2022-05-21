@@ -27,7 +27,7 @@ def controlServo():
 
 def ping():
     global isConnected
-    res = subprocess.call(['ping', '-c', '1', address])
+    res = subprocess.call(['ping', '-c', '5', address])
     if res == 0:
         print("ping to", address, "OK")
         if not isConnected:
