@@ -9,9 +9,11 @@ address = "192.168.2.120"
 isConnected = False
 
 
-def callAlexa():
+def callAlexaConnected():
     requests.get('https://trigger.esp8266-server.de/api/?id=541&hash=a5770e7bc8b2e5e4adcae74a3335c73d')
 
+def callAlexaDisconnected():
+    requests.get('https://trigger.esp8266-server.de/api/?id=542&hash=a5770e7bc8b2e5e4adcae74a3335c73d')
 
 def controlServo():
     servoPIN = 17
@@ -32,13 +34,15 @@ def ping():
         print("ping to", address, "OK")
         if not isConnected:
             controlServo()
-            callAlexa()
+            callAlexaConnected()
             isConnected = True
     elif res == 2:
         print("no response from", address)
+        callAlexaConnected()
         isConnected = False
     else:
         print("ping to", address, "failed!")
+        callAlexaConnected()
         isConnected = False
 
 
