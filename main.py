@@ -2,6 +2,7 @@ import subprocess
 import atexit
 import RPi.GPIO as GPIO
 import time
+import webbrowser
 
 address = "192.168.2.120"
 val = 0
@@ -51,6 +52,7 @@ def ping():
 
 def exit_handler():
     print('Device entered Network')
+    webbrowser.open('https://trigger.esp8266-server.de/api/?id=541&hash=a5770e7bc8b2e5e4adcae74a3335c73d')
     controlServo()
 
 
