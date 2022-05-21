@@ -36,10 +36,10 @@ def ping():
             isConnected = True
     elif res == 2:
         print("no response from", address)
-        isConnected = True
+        isConnected = False
     else:
         print("ping to", address, "failed!")
-        isConnected = True
+        isConnected = False
 
 
 def exit_handler():
@@ -49,7 +49,7 @@ def exit_handler():
 
 
 while True:
-    print("---pinging---")
+    print("---pinging---\ndef")
     ping()
 
 #atexit.register(exit_handler)
