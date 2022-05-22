@@ -1,9 +1,14 @@
+import os
 import subprocess
 import atexit
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 import webbrowser
 import requests
+import psutil
+import socket
+import nmap
+import socket
 
 address = "192.168.2.120"
 isConnected = False
@@ -13,20 +18,48 @@ def callAlexaConnected():
     requests.get('https://trigger.esp8266-server.de/api/?id=541&hash=a5770e7bc8b2e5e4adcae74a3335c73d')
 
 
+def remote_ips():
+    '''
+    Returns the list of IPs for current active connections
+    '''
+
+    remote_ips = []
+
+    for process in psutil.process_iter():
+        try:
+            connections = process.connections(kind='inet')
+        except psutil.AccessDenied or psutil.NoSuchProcess or OSError:
+            pass
+        else:
+            for connection in connections:
+                if connection.raddr and connection.raddr[0] not in remote_ips:
+                    remote_ips.append(connection.raddr[0])
+
+    print()
+    if address in remote_ips:
+        print("true")
+    else:
+        print("false")
+    #return remote_ips
+
+def checkNetwork():
+    ip_addr = address
+    scanner = nmap.PortScanner()
+    host = socket.gethostbyname(ip_addr)
+    scanner.scan(host, '1', '-v')
+    print("IP Status: ", scanner[host].state())
+
+def remote_ip_present(ip):
+    if ip in remote_ips():
+        print("true")
+    else:
+        print("false")
+
+
+
 def callAlexaDisconnected():
     requests.get('https://trigger.esp8266-server.de/api/?id=542&hash=a5770e7bc8b2e5e4adcae74a3335c73d')
 
-
-def controlServo():
-    servoPIN = 17
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(servoPIN, GPIO.OUT)
-
-    p = GPIO.PWM(servoPIN, 50)  # GPIO 17 als PWM mit 50Hz
-    p.start(2.5)  # Initialisierung
-    p.ChangeDutyCycle(12.5)
-    p.stop()
-    GPIO.cleanup()
 
 
 def ping():
@@ -36,7 +69,6 @@ def ping():
     if res == 0:
         print("ping to", address, "OK")
         if not isConnected:
-            controlServo()
             callAlexaConnected()
             isConnected = True
     elif res == 2:
@@ -53,12 +85,11 @@ def ping():
 
 def exit_handler():
     print('ending Script')
-    # webbrowser.open('https://trigger.esp8266-server.de/api/?id=541&hash=a5770e7bc8b2e5e4adcae74a3335c73d')
-    # controlServo()
 
 
 while True:
     print("\n---pinging---\n")
-    ping()
+    checkNetwork()
+    time.sleep(3)
 
 # atexit.register(exit_handler)
