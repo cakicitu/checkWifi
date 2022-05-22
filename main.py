@@ -41,12 +41,14 @@ def ping():
             isConnected = True
     elif res == 2:
         print("no response from", address)
-        callAlexaDisconnected()
-        isConnected = False
+        if isConnected:
+            callAlexaDisconnected()
+            isConnected = False
     else:
         print("ping to", address, "failed!")
-        callAlexaDisconnected()
-        isConnected = False
+        if isConnected:
+            callAlexaDisconnected()
+            isConnected = False
 
 
 def exit_handler():
