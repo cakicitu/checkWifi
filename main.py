@@ -1,8 +1,7 @@
+import atexit
 import subprocess
 import time
 import requests
-import nmap
-import socket
 
 address = "192.168.2.120"
 isConnected = False
@@ -10,14 +9,6 @@ isConnected = False
 
 def callAlexaConnected():
     requests.get('https://trigger.esp8266-server.de/api/?id=541&hash=a5770e7bc8b2e5e4adcae74a3335c73d')
-
-
-def checkNetwork():
-    ip_addr = address
-    scanner = nmap.PortScanner()
-    host = socket.gethostbyname(ip_addr)
-    scanner.scan(host, '1', '-v')
-    print("IP Status: ", scanner[host].state())
 
 
 def callAlexaDisconnected():
@@ -49,9 +40,9 @@ def exit_handler():
     print('ending Script')
 
 
-while True:
+while not isConnected:
     print("\n---pinging---\n")
-    checkNetwork()
+    ping()
     time.sleep(3)
 
-# atexit.register(exit_handler)
+atexit.register(exit_handler)
