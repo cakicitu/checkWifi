@@ -5,9 +5,30 @@ import requests
 import time
 from picamera import PiCamera
 from time import sleep
+import RPi.GPIO as GPIO
 
 address = "192.168.2.120"
 isConnected = False
+
+SENSOR_PIN = 23
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(SENSOR_PIN, GPIO.IN)
+
+
+def mein_callback(channel):
+    # Hier kann alternativ eine Anwendung/Befehl etc. gestartet werden.
+    print('Es gab eine Bewegung!')
+    takePicture()
+
+
+try:
+    GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=mein_callback)
+    while True:
+        time.sleep(100)
+except KeyboardInterrupt:
+    print("Beende...")
+GPIO.cleanup()
 
 def takePicture():
     camera = PiCamera()
