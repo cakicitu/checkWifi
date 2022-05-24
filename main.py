@@ -22,14 +22,6 @@ def mein_callback(channel):
     takePicture()
 
 
-try:
-    GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=mein_callback)
-    while True:
-        time.sleep(100)
-except KeyboardInterrupt:
-    print("Beende...")
-GPIO.cleanup()
-
 def takePicture():
     camera = PiCamera()
     camera.rotation = 180
@@ -72,10 +64,19 @@ def exit_handler():
     takePicture()
     print('ending Script')
 
+
+try:
+    print("warte auf Bewegung")
+    GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=mein_callback)
+    while True:
+        time.sleep(100)
+except KeyboardInterrupt:
+    print("Beende...")
+GPIO.cleanup()
+
 while not isConnected:
     print("\n---pinging---\n")
     ping()
     time.sleep(3)
-
 
 atexit.register(exit_handler)
