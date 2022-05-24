@@ -5,9 +5,19 @@ import requests
 import RPi.GPIO as GPIO
 from RpiMotorLib import RpiMotorLib
 import time
+from picamera import PiCamera
+from time import sleep
 
 address = "192.168.2.120"
 isConnected = False
+
+def takePicture():
+    camera = PiCamera()
+    camera.rotation = 180
+    camera.start_preview()
+    sleep(5)
+    camera.capture('/home/pi/Desktop/image.jpg')
+    camera.stop_preview()
 
 def controllStepper():
     ################################
@@ -68,14 +78,14 @@ def ping():
 
 
 def exit_handler():
+    takePicture()
     print('ending Script')
 
-
-#while not isConnected:
-    #print("\n---pinging---\n")
-    #ping()
-    #time.sleep(3)
+while not isConnected:
+    print("\n---pinging---\n")
+    ping()
+    time.sleep(3)
 
 controllStepper()
 
-#atexit.register(exit_handler)
+atexit.register(exit_handler)
