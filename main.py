@@ -68,8 +68,6 @@ def exit_handler():
 try:
     print("warte auf Bewegung")
     GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=mein_callback)
-    while True:
-        time.sleep(100)
 except KeyboardInterrupt:
     print("Beende...")
 GPIO.cleanup()
