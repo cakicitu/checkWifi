@@ -94,8 +94,7 @@ def ping():
 def exit_handler():
     #takePicture()
     print('ending Script')
-    #controllStepper()
-
+    controllStepper()
 
 # try:
 #     print("warte auf Bewegung")
@@ -103,11 +102,12 @@ def exit_handler():
 # except KeyboardInterrupt:
 #     print("Beende...")
 # GPIO.cleanup()
-#
-# while not isConnected:
-#     print("\n---pinging---\n")
-#     ping()
-#     time.sleep(3)
+
+
+while not isConnected:
+    print("\n---pinging---\n")
+    ping()
+    time.sleep(3)
 
 controllStepper()
 
