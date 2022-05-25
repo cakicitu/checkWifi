@@ -107,4 +107,6 @@ def exit_handler():
 #     ping()
 #     time.sleep(3)
 
+controllStepper()
+
 atexit.register(exit_handler)
