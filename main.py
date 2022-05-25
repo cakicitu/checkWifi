@@ -12,13 +12,14 @@ import time
 address = "192.168.2.120"
 isConnected = False
 
-SENSOR_PIN = 23
+#SENSOR_PIN = 23
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(SENSOR_PIN, GPIO.IN)
+#GPIO.setmode(GPIO.BCM)
+#GPIO.setup(SENSOR_PIN, GPIO.IN)
 
 
 def controllStepper():
+    print("starting stepper")
     ################################
     # RPi and Motor Pre-allocations
     ################################
@@ -91,8 +92,9 @@ def ping():
 
 
 def exit_handler():
-    takePicture()
+    #takePicture()
     print('ending Script')
+    controllStepper()
 
 
 # try:
