@@ -95,16 +95,16 @@ def exit_handler():
     print('ending Script')
 
 
-try:
-    print("warte auf Bewegung")
-    GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=mein_callback)
-except KeyboardInterrupt:
-    print("Beende...")
-GPIO.cleanup()
-
-while not isConnected:
-    print("\n---pinging---\n")
-    ping()
-    time.sleep(3)
+# try:
+#     print("warte auf Bewegung")
+#     GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=mein_callback)
+# except KeyboardInterrupt:
+#     print("Beende...")
+# GPIO.cleanup()
+#
+# while not isConnected:
+#     print("\n---pinging---\n")
+#     ping()
+#     time.sleep(3)
 
 atexit.register(exit_handler)
