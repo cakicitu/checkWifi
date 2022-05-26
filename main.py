@@ -95,6 +95,7 @@ def exit_handler():
     #takePicture()
     print('ending Script')
     controllStepper()
+    takePicture()
 
 # try:
 #     print("warte auf Bewegung")
